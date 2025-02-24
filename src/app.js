@@ -1,0 +1,68 @@
+// Backend: app.js
+const express = require('express');
+const { ethers } = require('ethers');
+const cors = require('cors');
+const app = express();
+
+app.use(express.json());
+app.use(cors());
+
+// Replace with your contract address and ABI
+const CONTRACT_ADDRESS = "0xA210123a4573aC64de4B18Ce3DDB46Cad86D2c2E";
+const CONTRACT_ABI = [
+    "function executeMetaTransaction(address sender, bytes txData) public"
+];
+
+// Replace with your provider URL (e.g., Infura)
+const provider = new ethers.providers.JsonRpcProvider("https://opt-sepolia.g.alchemy.com/v2/swE9yoWrnP9EzbOKdPsJD2Hk0yb3-kDr");
+
+// Replace with your private key
+const signer = new ethers.Wallet("private key", provider);
+const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+app.post('/factory-execute-meta-transaction', async (req, res) => {
+    try {
+        const { sender, txData } = req.body;
+        
+        const tx = await contract.executeMetaTransaction(sender, txData);
+        await tx.wait();
+        
+        res.json({ 
+            success: true, 
+            hash: tx.hash 
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: error.message 
+        });
+    }
+});
+app.post('/QV-execute-meta-transaction', async (req, res) => {
+    try {
+        const { sender, txData , contractAddress} = req.body;
+
+        const contract = new ethers.Contract(contractAddress, CONTRACT_ABI, signer);
+        const tx = await contract.executeMetaTransaction(sender, txData);
+        await tx.wait();
+        
+        res.json({ 
+            success: true, 
+            hash: tx.hash 
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: error.message 
+        });
+    }
+});
+
+
+
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
