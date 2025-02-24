@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 // Replace with your contract address and ABI
-const CONTRACT_ADDRESS = "0xA210123a4573aC64de4B18Ce3DDB46Cad86D2c2E";
+const CONTRACT_ADDRESS = "0x64a107b6720a23F501408090879d4455eB23A9e4";
 const CONTRACT_ABI = [
   "function executeMetaTransaction(address sender, bytes txData) public",
 ];
