@@ -68,5 +68,6 @@ app.post("/QV-execute-meta-transaction", async (req, res) => {
 const PORT = 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  const now = new Date().toLocaleString(); // Get the current timestamp
+  console.log(`Server running on port ${PORT} - Started at ${now}`);
 });
