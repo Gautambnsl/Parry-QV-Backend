@@ -8,17 +8,16 @@ app.use(express.json());
 app.use(cors());
 
 // Replace with your contract address and ABI
-const CONTRACT_ADDRESS = "0x64a107b6720a23F501408090879d4455eB23A9e4";
 const CONTRACT_ABI = [
   "function executeMetaTransaction(address sender, bytes txData) public",
 ];
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const RPC_URL = process.env.RPC_URL;
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
 // Replace with your provider URL (e.g., Infura)
-const provider = new ethers.providers.JsonRpcProvider(
-  "https://opt-sepolia.g.alchemy.com/v2/swE9yoWrnP9EzbOKdPsJD2Hk0yb3-kDr"
-);
+const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
 
 // Replace with your private key
 const signer = new ethers.Wallet(PRIVATE_KEY, provider);
